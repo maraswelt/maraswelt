@@ -3,277 +3,481 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Social Media News - Aktuelle Trends und virale Themen">
-    <title>Social Media News</title>
+    <title>Maras Welt</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap" rel="stylesheet">
     <style>
-        /* Allgemeines Styling für Dark Mode */
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #121212;
-            color: #e0e0e0;
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #1e1e2f;
+            color: #e0e0e0;
+            line-height: 1.6;
+            user-select: none;
         }
 
-        /* Header Styling */
         header {
-            background-color: #1f1f1f;
+            background: linear-gradient(to right, #3f3f5f, #4a4e69);
             color: #fff;
-            padding: 30px 0;
+            padding: 20px;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 36px;
-            letter-spacing: 1px;
-        }
-
-        /* Navigation Styling */
-        nav {
-            background-color: #333;
-            padding: 10px 0;
-            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
         }
 
         nav a {
+            margin: 0 15px;
             color: #fff;
             text-decoration: none;
-            margin: 0 20px;
-            font-size: 16px;
-            transition: color 0.3s;
+            font-weight: bold;
+            position: relative;
         }
 
         nav a:hover {
-            color: #1abc9c;
+            text-decoration: underline;
         }
 
-        /* Main Content Styling */
-        main {
-            padding: 40px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .news-item {
-            background-color: #1e1e1e;
-            padding: 20px;
-            margin-bottom: 25px;
-            border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-            transition: box-shadow 0.3s ease, transform 0.3s ease;
-        }
-
-        .news-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
-        }
-
-        .news-item h3 {
-            margin-top: 0;
-            font-size: 26px;
-            color: #ecf0f1;
-        }
-
-        .news-item p {
-            font-size: 16px;
-            line-height: 1.6;
-            color: #bdc3c7;
-        }
-
-        /* Kommentarbereich */
-        .comment-section {
-            margin-top: 30px;
-            border-top: 1px solid #444;
-            padding-top: 20px;
-        }
-
-        .comment-section h4 {
-            font-size: 20px;
-            margin-bottom: 10px;
-            color: #ecf0f1;
-        }
-
-        .comment-section input,
-        .comment-section textarea {
-            background-color: #333;
-            border: 1px solid #444;
-            color: #fff;
-            padding: 10px;
+        nav a:after {
+            content: '';
+            display: block;
             width: 100%;
-            margin: 5px 0;
-            border-radius: 5px;
-            font-size: 16px;
+            height: 2px;
+            background: #fff;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+            position: absolute;
+            left: 0;
+            bottom: -5px;
         }
 
-        .comment-section button {
-            background-color: #1abc9c;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            font-size: 14px;
+        nav a:hover:after {
+            transform: scaleX(1);
         }
 
-        .comment-section button:hover {
-            background-color: #16a085;
+        main {
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
         }
 
-        .comments-list {
+        section {
+            margin: 20px 0;
+            padding: 20px;
+            background: #2b2b3d;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            color: #e0e0e0;
+            font-weight: 500;
+            border-bottom: 2px solid #4a4e69;
+            padding-bottom: 10px;
+        }
+
+        #photo-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 15px;
             margin-top: 20px;
         }
 
-        .comment {
-            background-color: #333;
+        #photo-gallery img {
+            width: calc(25% - 15px);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s, filter 0.3s;
+            pointer-events: none;
+        }
+
+        #photo-gallery img:hover {
+            transform: scale(1.05);
+        }
+
+        #premium img {
+            filter: blur(5px);
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #4a4e69;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s, transform 0.3s;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background: #5a5e79;
+            transform: scale(1.05);
+        }
+
+        @keyframes pulse-button {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .button.pulsate {
+            animation: pulse-button 1.5s infinite;
+        }
+
+        .button.alert {
+            background: #ff4757; /* Knallige Farbe */
+        }
+
+        .button.alert:hover {
+            background: #ff6b81; /* Hellere Farbe bei Hover */
+        }
+
+        #login-popup, #subscription-popup, #payment-popup, #about-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        #popup-content, #subscription-content, #payment-content {
+            background: #2b2b3d;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            width: 300px;
+            text-align: center;
+        }
+
+        #popup-content h3, #subscription-content h3, #payment-content h3 {
+            color: #e0e0e0;
+            margin-bottom: 15px;
+        }
+
+        #popup-content input, #subscription-content input {
+            width: 100%;
             padding: 10px;
             margin-bottom: 10px;
+            border: none;
             border-radius: 5px;
-        }
-
-        .comment .author {
-            font-weight: bold;
-            color: #1abc9c;
-        }
-
-        .comment .content {
-            color: #bdc3c7;
-        }
-
-        /* Footer Styling */
-        footer {
-            background-color: #1f1f1f;
+            background: #4a4e69;
             color: #fff;
-            text-align: center;
-            padding: 15px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            nav a {
-                margin: 0 10px;
-            }
+        #popup-content button, #subscription-content button, #payment-content button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background: #4a4e69;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
 
-            .news-item {
-                padding: 15px;
-            }
+        #popup-content button:hover, #subscription-content button:hover, #payment-content button:hover {
+            background: #5a5e79;
+        }
 
-            header h1 {
-                font-size: 30px;
+        .close {
+            cursor: pointer;
+            color: #fff;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+
+        .create-account {
+            color: #4a90e2;
+            text-decoration: underline;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .subscription-details {
+            color: #e0e0e0;
+            margin: 10px 0;
+        }
+
+        .subscription-details ul {
+            list-style-type: none; /* Entfernt die Standard-Aufzählungszeichen */
+            padding: 0; /* Entfernt die Standard-Padding */
+            text-align: center; /* Zentriert den Text */
+        }
+
+        .subscription-details li {
+            margin: 5px 0; /* Fügt etwas Abstand zwischen den Listenelementen hinzu */
+        }
+
+        .crossed {
+            text-decoration: line-through;
+            color: red;
+        }
+
+        .spacer {
+            margin: 15px 0;
+        }
+
+        .payment-methods img {
+            width: 100px;
+            margin: 5px;
+        }
+
+        .info-message {
+            margin: 10px 0;
+            color: #e0e0e0;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .discord-button {
+            display: inline-block;
+            margin: 10px 0;
+            padding: 10px 20px;
+            background: #7289da;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s, transform 0.3s;
+            text-align: center;
+            animation: pulse 1.5s infinite;
+        }
+
+        .discord-button:hover {
+            background: #5b6eae;
+            transform: scale(1.05);
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
             }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .countdown-box {
+            background: #4a4e69;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .countdown {
+            color: #fff;
+            font-weight: bold;
+            text-align: center;
         }
     </style>
 </head>
-<body>
-
-    <!-- Header -->
+<body oncontextmenu="return false;">
     <header>
-        <h1>Social Media News</h1>
+        <h1>Maras Welt</h1>
+        <nav>
+            <a href="#about" id="about-link">Was ist Premium?</a>
+        </nav>
     </header>
-
-    <!-- Navigation -->
-    <nav>
-        <a href="#">Home</a>
-        <a href="#">Trends</a>
-        <a href="#">Top Posts</a>
-    </nav>
-
-    <!-- Main Content -->
+    
     <main>
-        <div class="news-item" id="post-1">
-            <h3>Viral auf Twitter: #TechNews</h3>
-            <p>Ein neuer Hashtag auf Twitter verbreitet sich schnell. Alle sprechen über die neueste Technologie, die das Internet revolutionieren soll. Es gibt schon viele Diskussionen darüber, wie sich diese Technologie auf die Gesellschaft auswirken wird...</p>
-            <div class="social-share">
-                <button>Teilen auf Twitter</button>
-                <button>Teilen auf Facebook</button>
+        <section id="free">
+            <h2>Kostenlos</h2>
+            <div id="photo-gallery">
+                <img src="free1.jpg" alt="Foto 1">
+                <img src="free2.jpg" alt="Foto 2">
+                <img src="free3.jpg" alt="Foto 3">
+                <img src="free4.jpg" alt="Foto 4">
             </div>
+        </section>
 
-            <!-- Kommentarbereich -->
-            <div class="comment-section">
-                <h4>Kommentar hinzufügen</h4>
-                <input type="text" id="author-1" placeholder="Dein Name">
-                <textarea id="comment-1" rows="4" placeholder="Schreib einen Kommentar..."></textarea>
-                <button onclick="addComment(1)">Kommentar absenden</button>
-
-                <div class="comments-list" id="comments-list-1">
-                    <!-- Kommentare werden hier dynamisch hinzugefügt -->
-                </div>
+        <section id="premium">
+            <h2>Premium</h2>
+            <div id="photo-gallery">
+                <img src="prem1.jpg" alt="Premium Foto 1">
+                <img src="prem2.jpg" alt="Premium Foto 2">
+                <img src="prem3.jpg" alt="Premium Foto 3">
+                <img src="prem4.jpg" alt="Premium Foto 4">
             </div>
-        </div>
+            <div class="button pulsate" id="show-popup">Jetzt Anmelden</div>
+        </section>
 
+        <section id="subscription">
+            <h2>Fragen</h2>
+            <div class="button pulsate alert" id="premium-info-popup">Was ist Premium?</div>
+        </section>
     </main>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2024 Social Media News | Alle Rechte vorbehalten.</p>
-    </footer>
+    <!-- Login Popup -->
+    <div id="login-popup">
+        <div id="popup-content">
+            <h3>Anmelden</h3>
+            <input type="text" id="username" placeholder="Benutzername" required>
+            <input type="password" id="password" placeholder="Passwort" required>
+            <button id="login-button">Einloggen</button>
+            <div class="error" id="error-message"></div>
+            <div class="create-account" id="create-account">Hast du kein Konto? Jetzt erstellen!</div>
+            <div class="close" id="close-popup">Schließen</div>
+        </div>
+    </div>
+
+    <!-- Subscription Popup -->
+    <div id="subscription-popup">
+        <div id="subscription-content">
+            <h3>Service Optionen</h3>
+            <div class="countdown-box">
+                <div class="countdown" id="countdown-timer"></div>
+            </div>
+            <div class="subscription-details">
+                <strong class="crossed">Monatlich:</strong> <span class="crossed">15,00 €</span><br>
+                <strong>Jede 2 Monate:</strong> 10,00 €<br>
+                <div class="spacer"></div>
+                <strong class="crossed">Jede 6 Monate:</strong> <span class="crossed">30,00 €</span><br>
+                <strong>Jede 6 Monate:</strong> 20,00 €<br>
+                <div class="spacer"></div>
+                <div class="spacer"></div>
+
+                <strong>Vorteile:</strong>
+                <ul>
+                    <li>Zugang zu allen Premium-Inhalten</li>
+                    <li>Private Bilder</li>
+                    <li>Mein Profil</li>
+                    <li>Meine Storys</li>
+                    <li>Schreibe einen Anonymen Kommentar</li>
+                    <li>Exklusive Rabatte</li>
+                    <li>Teile mit dir meine ganzen Momente</li>
+                </ul>
+            </div>
+            <button id="buy-button">Jetzt kaufen</button>
+            <div class="close" id="close-subscription-popup">Schließen</div>
+        </div>
+    </div>
+
+    <!-- Payment Popup -->
+    <div id="payment-popup">
+        <div id="payment-content">
+            <h3>Premium</h3>
+            <p>Kosten: 10,00 € - 2 Monate</p>
+            <p>Kosten: 20,00 € - 6 Monate</p>
+            <p>Zahlungsmethoden:</p>
+            <div class="payment-methods">
+                <img src="amazon.png" alt="Amazon Karte">
+                <img src="paysafe.png" alt="Paysafe Karte">
+                <img src="apple.jpg" alt="Apple Karte">
+            </div>
+            <p class="info-message">Trete dem Discord Server bei, falls du Interesse hast. Unter der Kategorie "Support", auf dem Server, findest du die letzten Schritte und Informationen zum Zahlen. Dann wird für dich ein eigenes Anmelde-Konto erstellt.</p>
+            <a href="https://discord.gg/dein-server" class="discord-button" target="_blank">Discord Server Beitreten</a>
+            <div class="close" id="close-payment-popup">Schließen</div>
+        </div>
+    </div>
+
+    <!-- About Popup -->
+    <div id="about-popup">
+        <div id="popup-content">
+            <h3>Über mich</h3>
+            <p>Ich bin Mara, 16 Jahre alt und komme aus Österreich. Ich mache Fotos von mir und meinem Outfit, da ich es liebe meinen Körper zu präsentieren und ihn zu zeigen.</p>
+            
+            <h3>Premium Kurz gefasst</h3>
+            <p>Premium-Besitzer haben Zugriff auf mein Profil, das ähnlich wie Instagram aufgebaut ist. Dort findest du Posts, Bilder, Stories und Highlights, die einen Einblick in meine Welt geben. Außerdem hast du die Möglichkeit, anonym einen Kommentar zu hinterlassen.</p>
+            
+            <h3>Wieso sollte ich es kaufen?</h3>
+        <p>Damit würdest du mich natürlich unterstützen, und ich biete auch einiges. Qualität hat halt ihren Preis, aber ich denke, der Preis ist fair, oder? Außerdem ist es keine Pflicht, aber ich würde mich trotzdem freuen.</p>
+
+            <div class="close" id="close-about-popup">Schließen</div>
+        </div>
+    </div>
 
     <script>
-        // Funktion zum Hinzufügen eines Kommentars
-        function addComment(postId) {
-            const author = document.getElementById('author-' + postId).value;
-            const commentText = document.getElementById('comment-' + postId).value;
+        document.getElementById('show-popup').onclick = function() {
+            document.getElementById('login-popup').style.display = 'flex';
+        };
 
-            if (!author || !commentText) {
-                alert("Bitte gib sowohl deinen Namen als auch deinen Kommentar ein.");
-                return;
+        document.getElementById('premium-info-popup').onclick = function() {
+            document.getElementById('about-popup').style.display = 'flex';
+        };
+
+        document.getElementById('close-popup').onclick = function() {
+            document.getElementById('login-popup').style.display = 'none';
+            document.getElementById('error-message').style.display = 'none';
+        };
+
+        document.getElementById('login-button').onclick = function() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('error-message');
+
+            if (username === "Mara" && password === "HAHAkick#") {
+                window.location.href = "https://www.google.de/?hl=de";
+            } else {
+                errorMessage.textContent = "Benutzername oder Passwort ist falsch.";
+                errorMessage.style.display = 'block';
             }
+        };
 
-            // Kommentar an den Server senden
-            fetch('http://localhost:3000/comments', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ postId: postId, author: author, content: commentText })
-            })
-            .then(response => response.json())
-            .then(data => {
-                displayComments(postId); // Kommentare neu laden
-            })
-            .catch(error => console.error('Fehler:', error));
-        }
+        document.getElementById('create-account').onclick = function() {
+            document.getElementById('subscription-popup').style.display = 'flex';
+            document.getElementById('login-popup').style.display = 'none';
+        };
 
-        // Funktion zum Anzeigen der Kommentare
-        function displayComments(postId) {
-            const commentsList = document.getElementById('comments-list-' + postId);
-            commentsList.innerHTML = ''; // Leeren, bevor neue Kommentare angezeigt werden
+        document.getElementById('close-subscription-popup').onclick = function() {
+            document.getElementById('subscription-popup').style.display = 'none';
+        };
 
-            fetch('http://localhost:3000/comments/' + postId)
-            .then(response => response.json())
-            .then(comments => {
-                comments.forEach(comment => {
-                    const commentContainer = document.createElement('div');
-                    commentContainer.classList.add('comment');
+        document.getElementById('buy-button').onclick = function() {
+            document.getElementById('payment-popup').style.display = 'flex';
+            document.getElementById('subscription-popup').style.display = 'none';
+        };
 
-                    const authorElement = document.createElement('div');
-                    authorElement.classList.add('author');
-                    authorElement.textContent = comment.author;
+        document.getElementById('close-payment-popup').onclick = function() {
+            document.getElementById('payment-popup').style.display = 'none';
+        };
 
-                    const contentElement = document.createElement('div');
-                    contentElement.classList.add('content');
-                    contentElement.textContent = comment.content;
+        document.getElementById('about-link').onclick = function() {
+            document.getElementById('about-popup').style.display = 'flex';
+        };
 
-                    // Kommentar hinzufügen
-                    commentContainer.appendChild(authorElement);
-                    commentContainer.appendChild(contentElement);
+        document.getElementById('close-about-popup').onclick = function() {
+            document.getElementById('about-popup').style.display = 'none';
+        };
 
-                    commentsList.appendChild(commentContainer);
-                });
-            })
-            .catch(error => console.error('Fehler beim Laden der Kommentare:', error));
-        }
+        document.querySelectorAll('img').forEach(function(img) {
+            img.addEventListener('dragstart', function(event) {
+                event.preventDefault();
+            });
+        });
 
-        // Beim Laden der Seite gespeicherte Kommentare anzeigen
-        window.onload = function() {
-            displayComments(1); // Hier Post-ID 1, für andere Artikel entsprechend anpassen
-        }
+        // Countdown Timer
+        const countdownDate = new Date("November 11, 2024 19:00:00").getTime();
+        const countdownFunction = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("countdown-timer").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+            if (distance < 0) {
+                clearInterval(countdownFunction);
+                document.getElementById("countdown-timer").innerHTML = "Angebot abgelaufen";
+            }
+        }, 1000);
     </script>
-
 </body>
 </html>
