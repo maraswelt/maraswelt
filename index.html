@@ -206,8 +206,6 @@
             </div>
         </div>
 
-        <!-- Weitere Nachrichtenartikel können hier hinzugefügt werden -->
-
     </main>
 
     <!-- Footer -->
@@ -220,53 +218,55 @@
         function addComment(postId) {
             const author = document.getElementById('author-' + postId).value;
             const commentText = document.getElementById('comment-' + postId).value;
-            
+
             if (!author || !commentText) {
                 alert("Bitte gib sowohl deinen Namen als auch deinen Kommentar ein.");
                 return;
             }
 
-            // Kommentar erstellen
-            const comment = { author: author, content: commentText };
-            
-            // Lokale Speicherung der Kommentare
-            let comments = JSON.parse(localStorage.getItem('comments-' + postId)) || [];
-            comments.push(comment);
-            localStorage.setItem('comments-' + postId, JSON.stringify(comments));
-
-            // Kommentar anzeigen
-            displayComments(postId);
-            
-            // Eingabefelder zurücksetzen
-            document.getElementById('author-' + postId).value = '';
-            document.getElementById('comment-' + postId).value = '';
+            // Kommentar an den Server senden
+            fetch('http://localhost:3000/comments', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ postId: postId, author: author, content: commentText })
+            })
+            .then(response => response.json())
+            .then(data => {
+                displayComments(postId); // Kommentare neu laden
+            })
+            .catch(error => console.error('Fehler:', error));
         }
 
-        // Funktion zum Anzeigen der gespeicherten Kommentare
+        // Funktion zum Anzeigen der Kommentare
         function displayComments(postId) {
             const commentsList = document.getElementById('comments-list-' + postId);
             commentsList.innerHTML = ''; // Leeren, bevor neue Kommentare angezeigt werden
 
-            const comments = JSON.parse(localStorage.getItem('comments-' + postId)) || [];
+            fetch('http://localhost:3000/comments/' + postId)
+            .then(response => response.json())
+            .then(comments => {
+                comments.forEach(comment => {
+                    const commentContainer = document.createElement('div');
+                    commentContainer.classList.add('comment');
 
-            comments.forEach(comment => {
-                const commentContainer = document.createElement('div');
-                commentContainer.classList.add('comment');
+                    const authorElement = document.createElement('div');
+                    authorElement.classList.add('author');
+                    authorElement.textContent = comment.author;
 
-                const authorElement = document.createElement('div');
-                authorElement.classList.add('author');
-                authorElement.textContent = comment.author;
+                    const contentElement = document.createElement('div');
+                    contentElement.classList.add('content');
+                    contentElement.textContent = comment.content;
 
-                const contentElement = document.createElement('div');
-                contentElement.classList.add('content');
-                contentElement.textContent = comment.content;
+                    // Kommentar hinzufügen
+                    commentContainer.appendChild(authorElement);
+                    commentContainer.appendChild(contentElement);
 
-                // Kommentar hinzufügen
-                commentContainer.appendChild(authorElement);
-                commentContainer.appendChild(contentElement);
-
-                commentsList.appendChild(commentContainer);
-            });
+                    commentsList.appendChild(commentContainer);
+                });
+            })
+            .catch(error => console.error('Fehler beim Laden der Kommentare:', error));
         }
 
         // Beim Laden der Seite gespeicherte Kommentare anzeigen
